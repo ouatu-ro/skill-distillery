@@ -2,7 +2,7 @@
 
 Human-facing report. Not part of the installable skill payload.
 
-Short scan note: [`ast-code-workflow-limitations.md`](ast-code-workflow-limitations.md)
+Short scan note: [`limitations.md`](limitations.md)
 
 ## Setup
 
@@ -25,7 +25,7 @@ Observed date:
 Agents:
 
 - **Baseline agent**: normal exploration, no special instruction to use the local skill.
-- **Skill-guided agent**: explicitly told to use the local `ast-code-workflow` skill.
+- **Skill-guided agent**: explicitly told to use the local `dirac-workflow` skill.
 
 Both agents were read-only.
 
@@ -124,7 +124,7 @@ Simulated question was the same:
 Agents:
 
 - **Baseline agent**: normal exploration, no skill.
-- **Skill-guided agent**: explicitly told to use local `skills/ast-code-workflow` at commit `7ae96fb`.
+- **Skill-guided agent**: explicitly told to use local `skills/dirac-workflow` at commit `7ae96fb`.
 
 ### Quantitative Findings
 

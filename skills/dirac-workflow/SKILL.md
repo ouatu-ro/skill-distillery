@@ -1,9 +1,9 @@
 ---
-name: ast-code-workflow
+name: dirac-workflow
 description: "Use when a coding task depends on structural code understanding: architecture summaries, symbol inspection, caller or reference analysis, renames, whole-symbol rewrites, or multi-file refactors where symbol-aware tools materially reduce risk. Prefer outline-first inspection, targeted symbol reads, reference mapping, minimal safe edits, and scoped verification."
 ---
 
-# AST Code Workflow
+# Dirac Workflow
 
 Use this skill to work like a structure-aware coding agent: inspect architecture before logic, prefer symbol-aware operations over raw text changes, and keep context and edits scoped.
 

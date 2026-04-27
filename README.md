@@ -6,14 +6,14 @@ This repository includes a skill based on [Dirac](https://github.com/dirac-run/d
 
 This project is independent and is not affiliated with Dirac.
 
-Human-facing notes and dogfood reports live in [`reports/`](reports/). Start with [`reports/ast-code-workflow-limitations.md`](reports/ast-code-workflow-limitations.md) for a short scan. Installable skills live in [`skills/`](skills/).
+Human-facing notes and dogfood reports live in [`reports/`](reports/). Start with [`reports/dirac-run-dirac/limitations.md`](reports/dirac-run-dirac/limitations.md) for a short scan of the Dirac workflow skill. Installable skills live in [`skills/`](skills/).
 
 ## Smoke Test
 
 ```bash
 uv run --with tree-sitter-language-pack \
-  python skills/ast-code-workflow/scripts/ast_harness.py \
-  skills/ast-code-workflow/fixtures/mini_repo
+  python skills/dirac-workflow/scripts/ast_harness.py \
+  skills/dirac-workflow/fixtures/mini_repo
 ```
 
 ## License

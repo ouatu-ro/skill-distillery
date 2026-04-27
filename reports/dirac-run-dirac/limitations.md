@@ -1,4 +1,4 @@
-# AST Code Workflow: Limitations and Dogfood Notes
+# Dirac Workflow: Limitations and Dogfood Notes
 
 Human-facing scan note. Not part of the installable skill payload.
 
@@ -6,13 +6,13 @@ Human-facing scan note. Not part of the installable skill payload.
 
 | Commit | Role |
 |---|---|
-| `691b6a7` | Packaged `ast-code-workflow` as an installable skill and added the first Dirac dogfood report. |
+| `691b6a7` | Packaged `dirac-workflow` as an installable skill and added the first Dirac dogfood report. |
 | `7ae96fb` | Added execution tactics and clearer guidance for batching, opportunistic context, and helper invocation. |
 | `a5b2311` | Added this scan note before the parent-assessed dogfood rerun and cleanup pass. |
 
 ## What This Skill Is
 
-`ast-code-workflow` is a workflow skill inspired by [dirac-run/dirac](https://github.com/dirac-run/dirac). It distills structural-code habits from Dirac into portable agent instructions plus a small optional Python AST helper.
+`dirac-workflow` is a workflow skill inspired by [dirac-run/dirac](https://github.com/dirac-run/dirac). It distills structural-code habits from Dirac into portable agent instructions plus a small optional Python AST helper.
 
 It is not a Dirac clone. It does not include Dirac's runtime, index, editor integration, hash-anchor editing engine, task loop, or persistence layer.
 
