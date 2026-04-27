@@ -20,9 +20,9 @@ Question: How does Dirac's replace_symbol flow find the symbol range, preserve w
 Return a concise, technically grounded answer with file references where useful.
 ```
 
-## Parent Assessment Template
+## Reviewer Assessment Template
 
-The parent agent compares only the returned answers. It does not use process metrics supplied by the answering agents.
+The reviewer compares only the returned answers.
 
 Assess:
 
@@ -34,7 +34,10 @@ Assess:
 - Risk framing
 - Any unsupported or overstated claims
 
-Do not report shell command counts, file counts, or timing unless independently measured outside the answering agents.
+## Reporting Policy
+
+- "Do not use process metrics supplied by answering agents."
+- "Do not report shell command counts, file counts, or timing unless independently measured outside the answering agents."
 
 ## Matrix Used For This Report
 
