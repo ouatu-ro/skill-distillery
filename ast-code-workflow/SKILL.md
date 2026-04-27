@@ -1,6 +1,6 @@
 ---
 name: ast-code-workflow
-description: Use when working in codebases where structural understanding matters: repo orientation, architecture summaries, function or method inspection, caller impact analysis, refactors, symbol renames, whole-symbol rewrites, safe multi-file edits, or tasks where AST, LSP, symbol, or anchored edit tools are available. Guides Codex to inspect skeletons first, fetch exact symbol bodies, map references, edit the smallest safe unit, and verify changes without cloning Dirac's runtime.
+description: Use when a coding task depends on structural code understanding: architecture summaries, symbol inspection, caller or reference analysis, renames, whole-symbol rewrites, or multi-file refactors where symbol-aware tools materially reduce risk. Prefer outline-first inspection, targeted symbol reads, reference mapping, minimal safe edits, and scoped verification.
 ---
 
 # AST Code Workflow
@@ -12,59 +12,43 @@ Use this skill to work like a structure-aware coding agent: inspect architecture
 - Finish the user's task, not just the investigation.
 - Minimize round trips by batching independent reads, searches, and non-overlapping edits.
 - Load only the context needed for the next decision.
-- Prefer structural tools over full-file reads when they are available.
+- Prefer structural inspection over full-file reads when structure is enough.
 - Prefer symbol-level edits over regex or line-level churn for semantic changes.
-- End with a concise completion summary covering changed scope, validation, and residual risks.
+- End with a concise summary of changed scope, validation, and residual risks.
 
 ## Workflow
 
 1. Identify candidate files with file listing, search, imports, tests, or user-provided paths.
-2. Read structure first with `get_file_skeleton`, LSP outline, ctags, tree-sitter, or an equivalent symbol outline.
-3. Pull exact symbol bodies with `get_function`, LSP symbol lookup, or targeted line ranges only after the relevant symbols are known.
-4. Map references before refactors with `find_symbol_references`, LSP references, compiler usages, or targeted search.
-5. Choose the smallest safe edit unit: rename, whole-symbol replacement, anchored line edit, or codemod.
+2. Read structure first with an outline/skeleton tool, LSP document symbols, ctags, tree-sitter, or equivalent.
+3. Pull exact symbol bodies only after relevant functions, methods, classes, or interfaces are known.
+4. Map definitions, callers, exports, and references before renames, signature changes, or behavior changes.
+5. Choose the smallest safe edit unit: symbol-aware rename, whole-symbol replacement, anchored line edit, or codemod.
 6. Verify with the narrowest useful check first, then broader tests/typecheck/lint when the changed surface warrants it.
 
-## Decision Tree
+## Safety Rules
 
-- Need repo orientation: list top-level files, manifests, and relevant directories.
-- Need architecture in known files: inspect file skeletons before reading full files.
-- Need implementation details: fetch the exact function, method, class, or neighboring range.
-- Need impact analysis: find symbol definitions and references before editing.
-- Need a rename: prefer AST/LSP `rename_symbol`; fall back to reference mapping plus targeted edits.
-- Need a function, method, or class rewrite: prefer `replace_symbol` or whole-symbol replacement.
-- Need local syntax or import adjustment: use fresh anchored line edits.
-- Need broad mechanical updates: use a script or codemod, then inspect representative diffs and run validation.
-- Need text, comments, config, or unsupported language changes: use targeted search and careful text edits.
-
-## Editing Rules
-
-- Preserve existing structure, wrappers, formatting conventions, imports, decorators, attributes, comments, JSDoc, and export keywords unless changing them is required.
+- Do not edit generated, vendored, third-party, lockfile-like, or externally owned outputs unless the user asked for that exact surface.
+- Before renaming or rewriting exported/public symbols, check whether they cross API, CLI, schema, config, persistence, plugin, or documentation boundaries.
+- If a symbol match is ambiguous across overloads, aliases, re-exports, duplicate names, nested scopes, or generated declarations, disambiguate before editing.
+- Preserve existing structure, wrappers, formatting conventions, imports, decorators, attributes, comments, JSDoc, visibility, and export keywords unless changing them is required.
 - Replace whole symbols when changing a symbol body; do not splice large bodies with unrelated line edits.
 - Re-emit complete symbol text when using symbol replacement.
 - Use exact current anchors or line ranges for text edits; never edit from stale reads.
 - Ensure multi-edit batches in one file do not overlap.
-- Apply bottom-up or tool-managed edits when raw offsets could shift.
-- Treat anchors, offsets, and symbol ranges as stale after edits, formatting, or user changes.
-- Re-read before follow-up edits when autoformatting or diagnostics changed the file.
+- Treat anchors, offsets, and symbol ranges as stale after edits, formatting, diagnostics, or user changes.
 - Avoid broad search/replace for identifiers unless symbol-aware rename is unavailable and references have been checked.
 
 ## Failure Modes
 
-- AST tools can fail on unsupported languages, parse errors, generated files, macros, or mixed syntax.
+- AST tools can fail on unsupported languages, parse errors, macros, mixed syntax, or generated code.
 - Symbol indexes can be stale or less semantic than a language-server rename.
-- Exact-name lookup can miss aliases, exports, dynamic references, or overload-like constructs.
+- Exact-name lookup can miss aliases, exports, dynamic references, overload-like constructs, or public contract usage.
 - Regex search can hit comments, strings, unrelated identifiers, generated files, or vendored code.
-- Whole-symbol replacement can accidentally drop metadata if decorators, comments, or wrappers are not included.
+- Whole-symbol replacement can accidentally drop metadata if decorators, comments, wrappers, visibility, or exports are not included.
 - Formatter or editor save hooks can change code and invalidate future edit coordinates.
 - A single search hit is not proof of exclusivity; verify definitions and representative references.
 
-## Fallbacks
-
-- If AST tools exist, use them first for source code structure and symbols.
-- If AST tools are absent, emulate the workflow with LSP, compiler tooling, `rg`, ctags, targeted reads, and focused tests.
-- If reference results look incomplete, cross-check with textual search, exports, tests, and call sites.
-- If a rename is risky, stage it as references first, edit second, verify third.
+If symbol-aware tools are missing or incomplete, emulate the same flow with targeted reads, `rg`, LSP/compiler search, and narrower validation before broader tests.
 
 ## References
 

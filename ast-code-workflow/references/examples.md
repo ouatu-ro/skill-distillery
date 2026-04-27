@@ -55,3 +55,14 @@ Sequence:
 3. Avoid generated/vendor/build files.
 4. Inspect representative diffs.
 5. Run lint/typecheck and a targeted search proving the deprecated form is gone.
+
+## Rename A Public Config Key Or Exported API
+
+Task: "Rename `maxRetries` to `retryLimit` everywhere."
+
+Sequence:
+1. Confirm whether the symbol is an internal implementation detail or part of a public contract.
+2. Find code references plus config files, docs, tests, schemas, migrations, CLI flags, and serialized data boundaries.
+3. If downstream consumers are unknown, avoid a silent breaking rename; stage a compatibility alias, migration, or ask for the intended compatibility policy.
+4. Apply symbol-aware edits where possible and targeted text edits for docs/config/schema surfaces.
+5. Validate with contract-focused tests and targeted searches for both old and new names.

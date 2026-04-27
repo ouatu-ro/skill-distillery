@@ -4,7 +4,7 @@ Use this reference to translate Dirac's tool discipline into whatever tools are 
 
 ## Structural Inspection
 
-- `list_files`: Locate candidate files and understand directory shape. Prefer excluding generated/vendor/build folders.
+- `list_files`: Locate candidate files and understand directory shape. Prefer excluding generated, vendored, third-party, build, and lockfile-like outputs unless explicitly in scope.
 - `get_file_skeleton`: Read classes, functions, methods, signatures, line counts, and sometimes local calls without loading implementation bodies.
 - Generic equivalents: LSP document symbols, tree-sitter outline, ctags, language-specific analyzers, or focused grep for definitions.
 
@@ -26,6 +26,7 @@ Use this reference to translate Dirac's tool discipline into whatever tools are 
 - `replace_symbol`: Prefer for replacing complete functions, methods, or classes. Provide the full replacement, including metadata attached to the symbol.
 - `edit_file`: Use for localized anchored line edits after a fresh read. Batch non-overlapping edits.
 - Shell scripts/codemods: Use for broad mechanical updates when a deterministic transform is cheaper and easier to verify.
+- Public contract edits: Before changing exported APIs, CLI flags, schemas, config keys, persistence fields, or plugin interfaces, inspect external boundaries and compatibility expectations.
 
 ## Completion
 
