@@ -4,6 +4,8 @@ Human-facing report. Not part of the installable skill payload.
 
 Method: [`methods.md`](methods.md)
 
+Sanitized agent outputs: [`convos/`](convos/)
+
 Short scan note: [`limitations.md`](limitations.md)
 
 ## Setup

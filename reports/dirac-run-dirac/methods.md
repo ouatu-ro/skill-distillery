@@ -2,6 +2,8 @@
 
 Human-facing method note for the Dirac workflow reports. Not part of the installable skill payload.
 
+Sanitized agent prompts and outputs are stored in [`convos/`](convos/).
+
 ## Question Template
 
 Use the same target repo, target commit, question, and answer constraints for every agent.
