@@ -39,6 +39,15 @@ Before running it:
 
 Read [references/ast-helper.md](references/ast-helper.md) for commands, limitations, and the harness.
 
+## Execution Tactics
+
+- Batch independent reads, searches, and non-overlapping edits whenever the active tools support batching.
+- Use small throwaway shell, Python, Perl, or repo-native scripts when mechanical analysis or transforms are cheaper and safer than repeated manual tool calls.
+- Fetch the next obvious context proactively when confidence is high, such as a symbol body after a skeleton reveals the target, or callers after a public signature change.
+- Prefer anchored, range-aware, or symbol-aware edits when available; do not claim hash-anchor behavior unless the active environment actually provides it.
+- Keep generated context focused: include outlines, exact bodies, references, diffs, and validation output that directly affect the next decision.
+- Stop and disambiguate when the next context is not obvious, when public contracts are involved, or when tool results disagree.
+
 ## Safety Rules
 
 - Do not edit generated, vendored, third-party, lockfile-like, or externally owned outputs unless the user asked for that exact surface.
