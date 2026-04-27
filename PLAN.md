@@ -28,8 +28,8 @@ Out of scope:
 
 ## Steps
 
-- [ ] S1: Commit this baseline plan.
-- [ ] S2: Use a GPT-5.4 subagent to extract concise Dirac workflow facts from source prompt/tool files.
+- [x] S1: Commit this baseline plan.
+- [x] S2: Use a GPT-5.4 subagent to extract concise Dirac workflow facts from source prompt/tool files.
 - [ ] S3: Initialize the skill skeleton with references support.
 - [ ] S4: Write `SKILL.md` and reference files.
 - [ ] S5: Use a GPT-5.4 subagent to review the draft skill for trigger clarity, bloat, and missing safety rules.
@@ -44,6 +44,8 @@ Out of scope:
 ## Progress Log
 
 - 2026-04-27 16:40: Plan created.
+- 2026-04-27 16:41: Committed baseline plan as `736557a`.
+- 2026-04-27 16:43: GPT-5.4 extraction subagent completed; findings will inform `SKILL.md` and references.
 
 ## Findings / Debt
 
