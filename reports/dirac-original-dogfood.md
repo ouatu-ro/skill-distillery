@@ -14,6 +14,14 @@ Target repo:
 
 [dirac-run/dirac](https://github.com/dirac-run/dirac)
 
+Target Dirac commit:
+
+`9b134e57189cf233f28a31b035949b8b7a192bf6`
+
+Observed date:
+
+2026-04-27
+
 Agents:
 
 - **Baseline agent**: normal exploration, no special instruction to use the local skill.
@@ -22,6 +30,8 @@ Agents:
 Both agents were read-only.
 
 ## Quantitative Findings
+
+Approximate/self-reported metrics from read-only dogfood runs.
 
 | Metric | Baseline agent | Skill-guided agent |
 |---|---:|---:|
@@ -118,6 +128,8 @@ Agents:
 
 ### Quantitative Findings
 
+Approximate/self-reported metrics from read-only dogfood runs.
+
 | Metric | Baseline agent | Skill-guided agent |
 |---|---:|---:|
 | Files inspected, self-reported | ~15 | 15 |
@@ -170,3 +182,31 @@ That suggests the skill text is now operational enough to make the optional help
 ### Updated Bottom Line
 
 At commit `04f9699`, the skill improves qualitative framing and can successfully activate its bundled AST helper. It still costs more exploration than the baseline on this narrow question, but it produces a more tool-shaped investigation path and better surfaces structural risks. The helper is useful for orientation and symbol-body targeting; it does not replace source inspection, tests, or semantic language-server analysis.
+
+## Run 3: Parent-Assessed Answers
+
+Skill commit tested: `5791ae0` parent worktree plus local uncommitted plan excluded from the skill payload.
+
+Target Dirac commit: `9b134e57189cf233f28a31b035949b8b7a192bf6`
+
+Observed date: 2026-04-27
+
+This run changed the method. The agents were not asked to report their own command counts, files inspected, or process. Each was asked the same code question and told to answer normally. The parent agent then compared the returned answers.
+
+### Parent Assessment
+
+| Dimension | Baseline answer | Skill-guided answer |
+|---|---|---|
+| Core flow correctness | Strong | Strong |
+| Citation specificity | Strong, many exact handler and bridge references | Strong, fewer but well-targeted references |
+| Wrapper/comment/decorator nuance | Good, described range expansion and fixtures | Stronger, explicitly said the caller must re-emit metadata because replacement text overwrites the expanded range |
+| Overlap/application explanation | Strong | Strong |
+| Verification limits | Good, noted diagnostics are not semantic proof | Stronger, explicitly noted no re-resolve/reparse/AST comparison after save |
+| Risk framing | Good | Stronger on metadata deletion, ambiguous suffix matching, range heuristics, and staleness |
+| Efficiency | Not measured in this run | Not measured in this run |
+
+### Qualitative Difference
+
+Both answers were technically grounded and correct. The baseline answer was comprehensive and very concrete, especially around byte ranges, bottom-to-top edits, diagnostics, and stale hash anchors. The skill-guided answer was slightly more careful about user-facing safety: it emphasized that wrapper/comment/decorator capture only chooses the replacement span and does not preserve metadata unless the caller includes it in the new text.
+
+This run supports the same high-level conclusion as Run 2, but with cleaner methodology: the skill does not obviously improve basic fact retrieval on a well-named code question, but it does improve the answer's safety framing and limitation analysis.
