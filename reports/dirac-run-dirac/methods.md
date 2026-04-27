@@ -43,11 +43,13 @@ Assess:
 
 Skill snapshots are commits in this repository, not Dirac commits.
 
+Baseline runs do not use the skill, so they are not meaningfully different across skill snapshots. They are repeated and paired with each snapshot to keep the comparison close in time and reduce provider/runtime drift.
+
 | Skill snapshot | Condition |
 |---|---|
-| `691b6a7` | baseline, no skill guidance |
+| `691b6a7` | baseline rerun, no skill guidance |
 | `691b6a7` | skill-guided, using that snapshot's skill instructions |
-| `7ae96fb` | baseline, no skill guidance |
+| `7ae96fb` | baseline rerun, no skill guidance |
 | `7ae96fb` | skill-guided, using that snapshot's skill instructions |
 
 The target Dirac commit was `9b134e57189cf233f28a31b035949b8b7a192bf6`.

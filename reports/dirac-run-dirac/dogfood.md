@@ -34,13 +34,15 @@ Method:
 
 Skill snapshots are commits in this repository, not Dirac commits.
 
+The two baseline runs are identical no-skill prompts. They are paired with the two skill snapshots as same-period reruns, not because baseline behavior depends on the skill commit.
+
 ## Runs
 
 | Skill snapshot | Condition | Result |
 |---|---|---|
-| `691b6a7` | baseline | Correct and detailed. Strong on implementation flow and diagnostics. Included one malformed citation and local-style file URLs in citations. |
+| `691b6a7` | baseline rerun | Correct and detailed. Strong on implementation flow and diagnostics. Included one malformed citation and local-style file URLs in citations. |
 | `691b6a7` | skill-guided | Correct and concise. Stronger structure around resolve, validate, apply, verify. Used portable-but-abbreviated citation targets. |
-| `7ae96fb` | baseline | Correct and detailed. Strong on operational details, including hash stripping, diagnostics, stale anchors, and partial-failure risk. Included local-style file paths in citations. |
+| `7ae96fb` | baseline rerun | Correct and detailed. Strong on operational details, including hash stripping, diagnostics, stale anchors, and partial-failure risk. Included local-style file paths in citations. |
 | `7ae96fb` | skill-guided | Correct and concise. Strongest on post-save mismatch risk, caller responsibility for complete replacement text, and verification limits. Included some malformed/partial citation syntax. |
 
 ## Parent Assessment

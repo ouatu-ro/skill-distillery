@@ -29,14 +29,16 @@ Dogfood target:
 
 Four separate agent runs answered the same `replace_symbol` question:
 
-- baseline at skill snapshot `691b6a7`
+- baseline rerun paired with skill snapshot `691b6a7`
 - skill-guided at skill snapshot `691b6a7`
-- baseline at skill snapshot `7ae96fb`
+- baseline rerun paired with skill snapshot `7ae96fb`
 - skill-guided at skill snapshot `7ae96fb`
 
 Agents were not asked to report process metrics. The parent agent compared the returned answers.
 
 Skill snapshots are commits in this repository, not Dirac commits.
+
+The baseline runs are identical no-skill prompts repeated near the skill-guided runs to reduce provider/runtime drift; baseline behavior is not tied to the skill snapshot.
 
 | Finding | Result |
 |---|---|
