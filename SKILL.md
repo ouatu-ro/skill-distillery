@@ -19,11 +19,25 @@ Use this skill to work like a structure-aware coding agent: inspect architecture
 ## Workflow
 
 1. Identify candidate files with file listing, search, imports, tests, or user-provided paths.
-2. Read structure first with an outline/skeleton tool, LSP document symbols, ctags, tree-sitter, or equivalent.
-3. Pull exact symbol bodies only after relevant functions, methods, classes, or interfaces are known.
-4. Map definitions, callers, exports, and references before renames, signature changes, or behavior changes.
-5. Choose the smallest safe edit unit: symbol-aware rename, whole-symbol replacement, anchored line edit, or codemod.
-6. Verify with the narrowest useful check first, then broader tests/typecheck/lint when the changed surface warrants it.
+2. Check user and repo instructions first, including the prompt, `AGENTS.md`, local skill guidance, package scripts, and preferred runtime/tooling.
+3. Read structure first with an outline/skeleton tool, LSP document symbols, ctags, tree-sitter, the bundled AST helper, or equivalent.
+4. Pull exact symbol bodies only after relevant functions, methods, classes, or interfaces are known.
+5. Map definitions, callers, exports, and references before renames, signature changes, or behavior changes.
+6. Choose the smallest safe edit unit: symbol-aware rename, whole-symbol replacement, anchored line edit, or codemod.
+7. Verify with the narrowest useful check first, then broader tests/typecheck/lint when the changed surface warrants it.
+
+## Optional AST Helper
+
+Use the bundled [scripts/ast_tool.py](scripts/ast_tool.py) when native AST, LSP, or symbol tools are unavailable or weaker than a local parse. It provides best-effort `skeleton`, `symbol`, and `refs` subcommands for Python, TypeScript, and JavaScript.
+
+Before running it:
+
+- Prefer the user's stated runtime preference and repo-native workflow.
+- Check for available runners such as `python`, `python3`, `uv`, `uvx`, project virtualenvs, or package scripts.
+- Install or provide dependencies only in the active environment the user/repo expects.
+- If the helper cannot run, fall back to LSP, ctags, tree-sitter tooling, targeted reads, and `rg`.
+
+Read [references/ast-helper.md](references/ast-helper.md) for commands, limitations, and the harness.
 
 ## Safety Rules
 
@@ -54,6 +68,7 @@ If symbol-aware tools are missing or incomplete, emulate the same flow with targ
 
 - Read [references/dirac-tool-map.md](references/dirac-tool-map.md) when mapping Dirac tool concepts to generic tools or deciding which operation to prefer.
 - Read [references/examples.md](references/examples.md) when choosing a workflow for common task shapes.
+- Read [references/ast-helper.md](references/ast-helper.md) before using the bundled Python helper or harness.
 
 ## Exclusions
 

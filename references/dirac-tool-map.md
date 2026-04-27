@@ -6,18 +6,18 @@ Use this reference to translate Dirac's tool discipline into whatever tools are 
 
 - `list_files`: Locate candidate files and understand directory shape. Prefer excluding generated, vendored, third-party, build, and lockfile-like outputs unless explicitly in scope.
 - `get_file_skeleton`: Read classes, functions, methods, signatures, line counts, and sometimes local calls without loading implementation bodies.
-- Generic equivalents: LSP document symbols, tree-sitter outline, ctags, language-specific analyzers, or focused grep for definitions.
+- Generic equivalents: LSP document symbols, tree-sitter outline, ctags, language-specific analyzers, focused grep for definitions, or the bundled `scripts/ast_tool.py skeleton` helper when appropriate.
 
 ## Targeted Reads
 
 - `get_function`: Fetch exact function or method bodies after skeleton inspection identifies the relevant symbol.
 - `read_file`: Use only when full-file context or a precise line range is needed.
-- Generic equivalents: LSP symbol lookup, tree-sitter node extraction, targeted `sed` ranges, or editor symbol navigation.
+- Generic equivalents: LSP symbol lookup, tree-sitter node extraction, targeted `sed` ranges, editor symbol navigation, or `scripts/ast_tool.py symbol`.
 
 ## Impact Analysis
 
 - `find_symbol_references`: Find definitions/references for exact symbols before refactors.
-- Generic equivalents: LSP references, compiler usages, `rg` cross-checks, import/export search, tests that exercise callers.
+- Generic equivalents: LSP references, compiler usages, `scripts/ast_tool.py refs`, `rg` cross-checks, import/export search, tests that exercise callers.
 - Treat index-backed results as a strong first pass, not a guarantee of full semantic coverage.
 
 ## Edits
