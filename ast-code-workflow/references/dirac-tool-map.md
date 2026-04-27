@@ -1,0 +1,36 @@
+# Dirac Tool Map
+
+Use this reference to translate Dirac's tool discipline into whatever tools are available in the current agent environment.
+
+## Structural Inspection
+
+- `list_files`: Locate candidate files and understand directory shape. Prefer excluding generated/vendor/build folders.
+- `get_file_skeleton`: Read classes, functions, methods, signatures, line counts, and sometimes local calls without loading implementation bodies.
+- Generic equivalents: LSP document symbols, tree-sitter outline, ctags, language-specific analyzers, or focused grep for definitions.
+
+## Targeted Reads
+
+- `get_function`: Fetch exact function or method bodies after skeleton inspection identifies the relevant symbol.
+- `read_file`: Use only when full-file context or a precise line range is needed.
+- Generic equivalents: LSP symbol lookup, tree-sitter node extraction, targeted `sed` ranges, or editor symbol navigation.
+
+## Impact Analysis
+
+- `find_symbol_references`: Find definitions/references for exact symbols before refactors.
+- Generic equivalents: LSP references, compiler usages, `rg` cross-checks, import/export search, tests that exercise callers.
+- Treat index-backed results as a strong first pass, not a guarantee of full semantic coverage.
+
+## Edits
+
+- `rename_symbol`: Prefer for symbol renames. It is safer than raw text replacement but can still miss stale-index or unsupported-language cases.
+- `replace_symbol`: Prefer for replacing complete functions, methods, or classes. Provide the full replacement, including metadata attached to the symbol.
+- `edit_file`: Use for localized anchored line edits after a fresh read. Batch non-overlapping edits.
+- Shell scripts/codemods: Use for broad mechanical updates when a deterministic transform is cheaper and easier to verify.
+
+## Completion
+
+- `attempt_completion`: End with a brief result summary, validation performed, and relevant risks or skipped checks.
+
+## What Not To Import Into A Skill
+
+- Approval mechanics, partial UI messages, telemetry, task-state counters, diff-view internals, previous-result hash lookup, parser cache details, database schema, and provider-specific tool serialization.
