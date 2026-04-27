@@ -250,7 +250,7 @@ def iter_ts_symbols(source: bytes, path: Path, language: str, root) -> list[Symb
                         source,
                         path,
                         language,
-                        child,
+                        node,
                         node_text(source, name_node),
                         "function",
                         exported=exported,
@@ -337,10 +337,12 @@ def candidate_files(root: Path, lang: str) -> list[Path]:
     return sorted(files)
 
 
-def rg_occurrences(root: Path, query: str) -> list[dict]:
+def rg_occurrences(query: str, files: list[Path]) -> list[dict]:
+    if not files:
+        return []
     try:
         proc = subprocess.run(
-            ["rg", "-n", "-w", "--no-heading", query, str(root)],
+            ["rg", "-n", "-w", "--no-heading", query, "--", *[str(path) for path in files]],
             text=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.DEVNULL,
@@ -368,6 +370,10 @@ def relative_records(records: list[dict], root: Path) -> list[dict]:
             item["path"] = str(Path(item["path"]))
         normalized.append(item)
     return normalized
+
+
+def record_key(record: dict) -> tuple[str, int, str]:
+    return (record["path"], record["line"], record["line_text"])
 
 
 def command_skeleton(args) -> dict:
@@ -404,18 +410,19 @@ def command_refs(args) -> dict:
     requested_lang = args.lang
     ast_occurrences: list[dict] = []
     parse_errors: list[str] = []
-    for file_path in candidate_files(root_path, requested_lang):
+    files = candidate_files(root_path, requested_lang)
+    for file_path in files:
         language = detect_language(file_path, "auto" if requested_lang == "auto" else requested_lang)
         source, root, parse_error = parse_file(file_path, language)
         if parse_error:
             parse_errors.append(str(file_path))
         ast_occurrences.extend(asdict(o) for o in identifier_occurrences(source, file_path, language, root, args.query))
 
-    rg_records = rg_occurrences(root_path, args.query)
+    rg_records = rg_occurrences(args.query, files)
     ast_norm = relative_records(ast_occurrences, root_path)
     rg_norm = relative_records(rg_records, root_path)
-    ast_keys = {(r["path"], r["line"]) for r in ast_norm}
-    rg_keys = {(r["path"], r["line"]) for r in rg_norm}
+    ast_keys = {record_key(r) for r in ast_norm}
+    rg_keys = {record_key(r) for r in rg_norm}
     return {
         "root": str(root_path),
         "query": args.query,
@@ -425,8 +432,8 @@ def command_refs(args) -> dict:
         "rg_occurrences": rg_norm,
         "ast_count": len(ast_norm),
         "rg_count": len(rg_norm),
-        "rg_only": [r for r in rg_norm if (r["path"], r["line"]) not in ast_keys],
-        "ast_only": [r for r in ast_norm if (r["path"], r["line"]) not in rg_keys],
+        "rg_only": [r for r in rg_norm if record_key(r) not in ast_keys],
+        "ast_only": [r for r in ast_norm if record_key(r) not in rg_keys],
     }
 
 
