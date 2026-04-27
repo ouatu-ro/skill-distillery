@@ -59,6 +59,8 @@ def check_fixture(
             raise AssertionError("ts_basic: lexical function extraction should include export const declaration context")
 
     refs = run_json(["refs", str(root / name), ref_query])
+    if refs["rg_available"] is not True:
+        raise AssertionError(f"{name}: expected rg to be available for harness comparison")
     ast_lines = {key(r) for r in refs["ast_occurrences"]}
     rg_only = {key(r) for r in refs["rg_only"]}
     if not expected_ast_lines.issubset(ast_lines):
@@ -101,8 +103,8 @@ def main(argv: list[str] | None = None) -> int:
             {
                 ("helper.ts", 1, "export function helper(value: string): string {"),
                 ("main.ts", 1, 'import { helper } from "./helper"'),
-                ("main.ts", 8, "return helper(task.id)"),
-                ("main.ts", 12, "export const buildTask = (id: string): string => helper(id)"),
+                ("main.ts", 18, "return helper(task.id)"),
+                ("main.ts", 22, "export const buildTask = (id: TaskId): string => helper(id)"),
             },
             {
                 ("main.ts", 3, "// helper is mentioned here as documentation noise."),
@@ -111,6 +113,10 @@ def main(argv: list[str] | None = None) -> int:
         ),
     ]
     for check in checks:
+        if check[0] == "ts_basic":
+            skeleton = run_json(["skeleton", str(root / "ts_basic" / "main.ts")])
+            for qualname in {"Task", "TaskId", "TaskState"}:
+                assert_contains(skeleton["symbols"], qualname)
         print(check_fixture(root, *check))
     return 0
 

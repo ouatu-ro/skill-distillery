@@ -77,7 +77,7 @@ The skill became materially more usable after `04f9699`: the second run successf
 - The Python helper covers common Python/TypeScript/JavaScript shapes, not every language or every grammar edge case.
 - Symbol-level replacement guidance does not implement Dirac's hash-anchor/Myers-diff editing strategy.
 - Decorator/export wrapper capture has limited helper support; comment and documentation preservation remain procedural guidance and must be checked by source inspection.
-- The helper currently omits some TypeScript architecture shapes, including interfaces, type aliases, enums, namespaces, overloads, and re-export declarations unless explicitly added.
+- The helper covers common TypeScript classes, functions, methods, interfaces, type aliases, enums, and namespaces, but still omits overload signatures, re-export declarations, object-literal methods, and deeper semantic relationships.
 - Quantitative numbers are from small read-only dogfood runs, not a benchmark.
 
 ## Practical Takeaway

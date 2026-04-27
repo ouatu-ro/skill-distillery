@@ -39,9 +39,9 @@ uv run --with tree-sitter-language-pack python scripts/ast_tool.py skeleton fixt
 
 ## Subcommands
 
-- `skeleton <file>`: extract classes, functions, methods, line ranges, and qualified names.
+- `skeleton <file>`: extract common classes, functions, methods, interfaces, type aliases, enums, namespaces, line ranges, and qualified names.
 - `symbol <file> <query>`: extract one exact symbol body by name or qualified name.
-- `refs <root> <query>`: compare AST identifier-name occurrences with `rg` word matches.
+- `refs <root> <query>`: compare raw AST identifier-name occurrences with literal `rg` word matches.
 
 ## Harness
 
@@ -55,11 +55,13 @@ Expected behavior:
 
 - Python and TypeScript skeleton extraction succeeds.
 - Symbol extraction returns exact method bodies.
-- `refs` shows fewer AST identifier hits than `rg` because `rg` also reports comments and strings.
+- `refs` shows fewer AST identifier occurrences than `rg` because `rg` also reports comments and strings.
 
 ## Limits
 
 - This is not a semantic language server.
-- `refs` is identifier-name based and does not resolve imports, aliases, dynamic dispatch, overloads, or type information.
+- `refs` is syntactic identifier-name matching and does not resolve imports, aliases, dynamic dispatch, overloads, or type information.
+- Occurrence counts are raw AST nodes, not unique source lines.
+- TypeScript/TSX support covers common declarations, but does not model overload signatures, re-export declarations, or every JSX grammar edge case.
 - `replace_symbol` and semantic rename are intentionally not implemented.
 - Treat results as a structural first pass and cross-check with LSP, compiler output, tests, or `rg` when risk is high.

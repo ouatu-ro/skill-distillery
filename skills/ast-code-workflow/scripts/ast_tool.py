@@ -29,9 +29,9 @@ except ModuleNotFoundError:
 LANG_BY_EXT = {
     ".py": "python",
     ".ts": "typescript",
-    ".tsx": "typescript",
+    ".tsx": "tsx",
     ".js": "javascript",
-    ".jsx": "javascript",
+    ".jsx": "tsx",
     ".mjs": "javascript",
     ".cjs": "javascript",
 }
@@ -161,6 +161,10 @@ def unwrap_decorated(node):
     return node, node
 
 
+def function_is_async(source: bytes, node) -> bool:
+    return node_text(source, node).lstrip().startswith("async ")
+
+
 def iter_python_symbols(source: bytes, path: Path, root) -> list[Symbol]:
     symbols: list[Symbol] = []
 
@@ -187,13 +191,23 @@ def iter_python_symbols(source: bytes, path: Path, root) -> list[Symbol]:
                                         method_name,
                                         "method",
                                         parent=name,
-                                        async_=b"async " in source[member_wrapper.start_byte : member_actual.start_byte + 10],
+                                        async_=function_is_async(source, member_actual),
                                     )
                                 )
         elif actual.type == "function_definition":
             name = child_name(source, actual)
             if name:
-                symbols.append(symbol_from_node(source, path, "python", wrapper, name, "function"))
+                symbols.append(
+                    symbol_from_node(
+                        source,
+                        path,
+                        "python",
+                        wrapper,
+                        name,
+                        "function",
+                        async_=function_is_async(source, actual),
+                    )
+                )
 
     for node in root.named_children:
         add_top(node)
@@ -207,7 +221,15 @@ def iter_ts_symbols(source: bytes, path: Path, language: str, root) -> list[Symb
         exported = node.type == "export_statement"
         if exported:
             for child in node.named_children:
-                if child.type in {"class_declaration", "function_declaration", "lexical_declaration"}:
+                if child.type in {
+                    "class_declaration",
+                    "function_declaration",
+                    "lexical_declaration",
+                    "interface_declaration",
+                    "type_alias_declaration",
+                    "enum_declaration",
+                    "internal_module",
+                }:
                     return child, exported
         return node, exported
 
@@ -232,7 +254,7 @@ def iter_ts_symbols(source: bytes, path: Path, language: str, root) -> list[Symb
                             method_name,
                             "method",
                             parent=name,
-                            async_=member.children and member.children[0].type == "async",
+                            async_=node_text(source, member).lstrip().startswith("async "),
                         )
                     )
 
@@ -264,16 +286,43 @@ def iter_ts_symbols(source: bytes, path: Path, language: str, root) -> list[Symb
         elif node.type == "function_declaration":
             name = child_name(source, node)
             if name:
-                symbols.append(symbol_from_node(source, path, language, node, name, "function", exported=exported))
+                symbols.append(
+                    symbol_from_node(
+                        source,
+                        path,
+                        language,
+                        node,
+                        name,
+                        "function",
+                        exported=exported,
+                        async_=node_text(source, node).lstrip().startswith("async "),
+                    )
+                )
         elif node.type == "lexical_declaration":
             add_lexical(node, exported)
+        elif node.type == "interface_declaration":
+            name = child_name(source, node)
+            if name:
+                symbols.append(symbol_from_node(source, path, language, node, name, "interface", exported=exported))
+        elif node.type == "type_alias_declaration":
+            name = child_name(source, node)
+            if name:
+                symbols.append(symbol_from_node(source, path, language, node, name, "type", exported=exported))
+        elif node.type == "enum_declaration":
+            name = child_name(source, node)
+            if name:
+                symbols.append(symbol_from_node(source, path, language, node, name, "enum", exported=exported))
+        elif node.type == "internal_module":
+            name = child_name(source, node)
+            if name:
+                symbols.append(symbol_from_node(source, path, language, node, name, "namespace", exported=exported))
     return symbols
 
 
 def iter_symbols(source: bytes, path: Path, language: str, root) -> list[Symbol]:
     if language == "python":
         return iter_python_symbols(source, path, root)
-    if language in {"typescript", "javascript"}:
+    if language in {"typescript", "javascript", "tsx"}:
         return iter_ts_symbols(source, path, language, root)
     return []
 
@@ -337,19 +386,19 @@ def candidate_files(root: Path, lang: str) -> list[Path]:
     return sorted(files)
 
 
-def rg_occurrences(query: str, files: list[Path]) -> list[dict]:
+def rg_occurrences(query: str, files: list[Path]) -> tuple[list[dict], bool]:
     if not files:
-        return []
+        return [], True
     try:
         proc = subprocess.run(
-            ["rg", "-n", "-w", "--no-heading", query, "--", *[str(path) for path in files]],
+            ["rg", "-n", "-w", "-F", "--no-heading", query, "--", *[str(path) for path in files]],
             text=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.DEVNULL,
             check=False,
         )
     except FileNotFoundError:
-        return []
+        return [], False
     out: list[dict] = []
     for line in proc.stdout.splitlines():
         match = re.match(r"^(.*?):(\d+):(.*)$", line)
@@ -357,7 +406,7 @@ def rg_occurrences(query: str, files: list[Path]) -> list[dict]:
             continue
         path, lineno, text = match.groups()
         out.append({"path": path, "line": int(lineno), "line_text": text.strip()})
-    return out
+    return out, True
 
 
 def relative_records(records: list[dict], root: Path) -> list[dict]:
@@ -418,7 +467,7 @@ def command_refs(args) -> dict:
             parse_errors.append(str(file_path))
         ast_occurrences.extend(asdict(o) for o in identifier_occurrences(source, file_path, language, root, args.query))
 
-    rg_records = rg_occurrences(args.query, files)
+    rg_records, rg_available = rg_occurrences(args.query, files)
     ast_norm = relative_records(ast_occurrences, root_path)
     rg_norm = relative_records(rg_records, root_path)
     ast_keys = {record_key(r) for r in ast_norm}
@@ -428,6 +477,7 @@ def command_refs(args) -> dict:
         "query": args.query,
         "mode": "identifier-name",
         "parse_errors": parse_errors,
+        "rg_available": rg_available,
         "ast_occurrences": ast_norm,
         "rg_occurrences": rg_norm,
         "ast_count": len(ast_norm),
@@ -443,19 +493,19 @@ def main(argv: list[str] | None = None) -> int:
 
     skeleton = sub.add_parser("skeleton", help="Extract a file outline.")
     skeleton.add_argument("path")
-    skeleton.add_argument("--lang", default="auto", choices=["auto", "python", "typescript", "javascript"])
+    skeleton.add_argument("--lang", default="auto", choices=["auto", "python", "typescript", "javascript", "tsx"])
     skeleton.set_defaults(func=command_skeleton)
 
     symbol = sub.add_parser("symbol", help="Extract one symbol body.")
     symbol.add_argument("path")
     symbol.add_argument("query")
-    symbol.add_argument("--lang", default="auto", choices=["auto", "python", "typescript", "javascript"])
+    symbol.add_argument("--lang", default="auto", choices=["auto", "python", "typescript", "javascript", "tsx"])
     symbol.set_defaults(func=command_symbol)
 
     refs = sub.add_parser("refs", help="Compare AST identifier-name occurrences with rg.")
     refs.add_argument("root")
     refs.add_argument("query")
-    refs.add_argument("--lang", default="auto", choices=["auto", "python", "typescript", "javascript"])
+    refs.add_argument("--lang", default="auto", choices=["auto", "python", "typescript", "javascript", "tsx"])
     refs.set_defaults(func=command_refs)
 
     args = parser.parse_args(argv)
