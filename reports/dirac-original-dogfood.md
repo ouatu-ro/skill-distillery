@@ -115,7 +115,7 @@ For this question, both agents answered correctly. The skill-guided agent produc
 
 ## Run 2: After Execution Tactics Update
 
-Skill commit tested: `04f9699` (`Add AST workflow execution tactics`)
+Skill commit tested: `7ae96fb` (`Add AST workflow execution tactics`)
 
 Simulated question was the same:
 
@@ -124,7 +124,7 @@ Simulated question was the same:
 Agents:
 
 - **Baseline agent**: normal exploration, no skill.
-- **Skill-guided agent**: explicitly told to use local `skills/ast-code-workflow` at commit `04f9699`.
+- **Skill-guided agent**: explicitly told to use local `skills/ast-code-workflow` at commit `7ae96fb`.
 
 ### Quantitative Findings
 
@@ -181,11 +181,11 @@ That suggests the skill text is now operational enough to make the optional help
 
 ### Updated Bottom Line
 
-At commit `04f9699`, the skill improves qualitative framing and can successfully activate its bundled AST helper. It still costs more exploration than the baseline on this narrow question, but it produces a more tool-shaped investigation path and better surfaces structural risks. The helper is useful for orientation and symbol-body targeting; it does not replace source inspection, tests, or semantic language-server analysis.
+At commit `7ae96fb`, the skill improves qualitative framing and can successfully activate its bundled AST helper. It still costs more exploration than the baseline on this narrow question, but it produces a more tool-shaped investigation path and better surfaces structural risks. The helper is useful for orientation and symbol-body targeting; it does not replace source inspection, tests, or semantic language-server analysis.
 
 ## Run 3: Parent-Assessed Answers
 
-Skill commit tested: `5791ae0` parent worktree plus local uncommitted plan excluded from the skill payload.
+Skill commit tested: `a5b2311` parent worktree plus local uncommitted plan excluded from the skill payload.
 
 Target Dirac commit: `9b134e57189cf233f28a31b035949b8b7a192bf6`
 

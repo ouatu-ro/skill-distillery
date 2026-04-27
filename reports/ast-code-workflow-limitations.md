@@ -6,9 +6,9 @@ Human-facing scan note. Not part of the installable skill payload.
 
 | Commit | Role |
 |---|---|
-| `91600e0` | Packaged `ast-code-workflow` as an installable skill and added the first Dirac dogfood report. |
-| `04f9699` | Added execution tactics and clearer guidance for batching, opportunistic context, and helper invocation. |
-| `5791ae0` | Added this scan note before the parent-assessed dogfood rerun and cleanup pass. |
+| `691b6a7` | Packaged `ast-code-workflow` as an installable skill and added the first Dirac dogfood report. |
+| `7ae96fb` | Added execution tactics and clearer guidance for batching, opportunistic context, and helper invocation. |
+| `a5b2311` | Added this scan note before the parent-assessed dogfood rerun and cleanup pass. |
 
 ## What This Skill Is
 
@@ -32,7 +32,7 @@ Dogfood question:
 
 | Metric | Run 1 skill snapshot | Run 2 skill snapshot |
 |---|---:|---:|
-| Commit represented | `91600e0` | `04f9699` |
+| Commit represented | `691b6a7` | `7ae96fb` |
 | Baseline files inspected | ~23 | ~15 |
 | Skill-guided files inspected | ~19 | 15 |
 | Baseline key files used | 14 | 8 |
@@ -67,7 +67,7 @@ The skill-guided agents tended to produce stronger risk analysis than baseline a
 
 The baseline agents were often faster and more economical on a narrow, already well-named question. Plain `rg` plus targeted reads is hard to beat when the question points directly at `replace_symbol`.
 
-The skill became materially more usable after `04f9699`: the second run successfully invoked the helper through a dependency-provisioned `uv` command instead of failing on ambient Python.
+The skill became materially more usable after `7ae96fb`: the second run successfully invoked the helper through a dependency-provisioned `uv` command instead of failing on ambient Python.
 
 ## Known Limitations
 
