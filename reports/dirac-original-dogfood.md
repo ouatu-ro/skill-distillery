@@ -2,6 +2,8 @@
 
 Human-facing report. Not part of the installable skill payload.
 
+Short scan note: [`ast-code-workflow-limitations.md`](ast-code-workflow-limitations.md)
+
 ## Setup
 
 Simulated question:
