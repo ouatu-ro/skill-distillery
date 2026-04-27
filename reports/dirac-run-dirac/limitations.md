@@ -27,7 +27,7 @@ Dogfood target:
 
 ## Clean Dogfood Result
 
-Four Spark agents answered the same `replace_symbol` question:
+Four separate agent runs answered the same `replace_symbol` question:
 
 - baseline at skill snapshot `691b6a7`
 - skill-guided at skill snapshot `691b6a7`
@@ -35,6 +35,8 @@ Four Spark agents answered the same `replace_symbol` question:
 - skill-guided at skill snapshot `7ae96fb`
 
 Agents were not asked to report process metrics. The parent agent compared the returned answers.
+
+Skill snapshots are commits in this repository, not Dirac commits.
 
 | Finding | Result |
 |---|---|
@@ -58,6 +60,7 @@ The execution-tactics update in `7ae96fb` did not change the factual answer much
 - The helper is optional. Agents still need normal shell search, file reads, tests, and repo-specific instructions.
 - The workflow can add overhead on small questions because it encourages structure-first inspection before reading exact bodies.
 - The Python helper covers common Python/TypeScript/TSX/JavaScript shapes, not every language or every grammar edge case.
+- `.jsx` files are parsed through the TSX grammar in the helper because the current parser dependency does not expose a separate JSX parser.
 - Symbol-level replacement guidance does not implement Dirac's hash-anchor/Myers-diff editing strategy.
 - Decorator/export wrapper capture has limited helper support; comment and documentation preservation remain procedural guidance and must be checked by source inspection.
 - The helper covers common TypeScript classes, functions, methods, interfaces, type aliases, enums, and namespaces, but still omits overload signatures, re-export declarations, object-literal methods, and deeper semantic relationships.

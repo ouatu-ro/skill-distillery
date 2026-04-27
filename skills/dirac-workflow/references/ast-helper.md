@@ -63,5 +63,6 @@ Expected behavior:
 - `refs` is syntactic identifier-name matching and does not resolve imports, aliases, dynamic dispatch, overloads, or type information.
 - Occurrence counts are raw AST nodes, not unique source lines.
 - TypeScript/TSX support covers common declarations, but does not model overload signatures, re-export declarations, or every JSX grammar edge case.
+- `.jsx` files are parsed through the TSX grammar because the current dependency does not expose a separate JSX parser; this is best-effort and reports `language: "tsx"`.
 - `replace_symbol` and semantic rename are intentionally not implemented.
 - Treat results as a structural first pass and cross-check with LSP, compiler output, tests, or `rg` when risk is high.

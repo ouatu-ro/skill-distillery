@@ -19,3 +19,5 @@ uv run --with tree-sitter-language-pack \
 ## License
 
 Licensed under Apache-2.0.
+
+SPDX-License-Identifier: Apache-2.0

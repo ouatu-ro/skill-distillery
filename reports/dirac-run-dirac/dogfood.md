@@ -26,11 +26,13 @@ Question:
 
 Method:
 
-- Four Spark agents were run with the same question.
+- Four separate agent runs were performed with the same question.
 - Two agents were baseline agents with no skill guidance.
 - Two agents were skill-guided agents, one using skill snapshot `691b6a7` and one using skill snapshot `7ae96fb`.
 - Agents were told to answer normally and not report command counts, file counts, process notes, or self-evaluation.
 - The parent agent compared the returned answers.
+
+Skill snapshots are commits in this repository, not Dirac commits.
 
 ## Runs
 
@@ -71,6 +73,8 @@ The most useful skill-guided improvement was not additional facts. It was better
 ## Quantitative Summary
 
 These are parent-assessed answer-quality counts, not benchmark scores.
+
+Citation hygiene was assessed separately from technical correctness because the agents operated over a local checkout and produced path-like references inconsistently.
 
 | Metric | Baseline | Skill-guided |
 |---|---:|---:|

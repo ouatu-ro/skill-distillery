@@ -28,7 +28,7 @@ Use this skill to work like a structure-aware coding agent: inspect architecture
 
 ## Optional AST Helper
 
-Use the bundled [scripts/ast_tool.py](scripts/ast_tool.py) when native AST, LSP, or symbol tools are unavailable or weaker than a local parse. It provides best-effort `skeleton`, `symbol`, and `refs` subcommands for Python, TypeScript/TSX, and JavaScript.
+Use the bundled [scripts/ast_tool.py](scripts/ast_tool.py) when native AST, LSP, or symbol tools are unavailable or weaker than a local parse. It provides best-effort `skeleton`, `symbol`, and `refs` subcommands for Python, TypeScript/TSX, JavaScript, and JSX parsed through the TSX grammar.
 
 Before running it:
 
@@ -66,7 +66,7 @@ Read [references/ast-helper.md](references/ast-helper.md) for commands, limitati
 - AST tools can fail on unsupported languages, parse errors, macros, mixed syntax, or generated code.
 - Symbol indexes can be stale or less semantic than a language-server rename.
 - Exact-name lookup can miss aliases, exports, re-exports, dynamic references, overload-like constructs, or public contract usage.
-- Regex search can hit comments, strings, unrelated identifiers, generated files, or vendored code.
+- Text search can hit comments, strings, unrelated identifiers, generated files, or vendored code.
 - Whole-symbol replacement can accidentally drop metadata if decorators, comments, wrappers, visibility, or exports are not included.
 - Formatter or editor save hooks can change code and invalidate future edit coordinates.
 - A single search hit is not proof of exclusivity; verify definitions and representative references.

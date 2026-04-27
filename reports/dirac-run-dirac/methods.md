@@ -38,6 +38,8 @@ Do not report shell command counts, file counts, or timing unless independently 
 
 ## Matrix Used For This Report
 
+Skill snapshots are commits in this repository, not Dirac commits.
+
 | Skill snapshot | Condition |
 |---|---|
 | `691b6a7` | baseline, no skill guidance |
