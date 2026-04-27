@@ -1,6 +1,6 @@
 ---
 name: ast-code-workflow
-description: Use when a coding task depends on structural code understanding: architecture summaries, symbol inspection, caller or reference analysis, renames, whole-symbol rewrites, or multi-file refactors where symbol-aware tools materially reduce risk. Prefer outline-first inspection, targeted symbol reads, reference mapping, minimal safe edits, and scoped verification.
+description: "Use when a coding task depends on structural code understanding: architecture summaries, symbol inspection, caller or reference analysis, renames, whole-symbol rewrites, or multi-file refactors where symbol-aware tools materially reduce risk. Prefer outline-first inspection, targeted symbol reads, reference mapping, minimal safe edits, and scoped verification."
 ---
 
 # AST Code Workflow

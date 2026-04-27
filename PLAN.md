@@ -33,11 +33,11 @@ Out of scope:
 - [x] S3: Initialize the skill skeleton with references support.
 - [x] S4: Write `SKILL.md` and reference files.
 - [x] S5: Use a GPT-5.4 subagent to review the draft skill for trigger clarity, bloat, and missing safety rules.
-- [ ] S6: Validate, revise, and commit the finished skill.
+- [x] S6: Validate, revise, and commit the finished skill.
 
 ## Validation
 
-- Skill validation: `<skill-creator>/scripts/quick_validate.py skills/ast-code-workflow`
+- Skill validation: `uv run --with PyYAML python <skill-creator>/scripts/quick_validate.py skills/ast-code-workflow` passed
 - Content review: inspect generated `SKILL.md`, `references/dirac-tool-map.md`, and `references/examples.md`
 - Git: `git -C <repo> status --short`
 
@@ -49,10 +49,11 @@ Out of scope:
 - 2026-04-27 16:45: Initialized `ast-code-workflow` with references support and fixed generated UI default prompt quoting.
 - 2026-04-27 16:48: Replaced generated placeholders with the AST-first workflow skill body and two reference files.
 - 2026-04-27 16:52: GPT-5.4 review subagent completed; tightened trigger, compressed the body, and added generated-code/public-contract/ambiguity guardrails.
+- 2026-04-27 16:55: Validation passed with `uv run --with PyYAML python <skill-creator>/scripts/quick_validate.py skills/ast-code-workflow`.
 
 ## Findings / Debt
 
-- None yet.
+- Ambient `/usr/bin/python3` lacked `PyYAML`, so validation was run through `uv run --with PyYAML`.
 
 ## Completion Criteria
 
