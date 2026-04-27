@@ -1,0 +1,4 @@
+interface:
+  display_name: "AST Code Workflow"
+  short_description: "AST-first code inspection and edits"
+  default_prompt: "Use $ast-code-workflow to inspect this codebase structurally before making safe symbol-level edits."

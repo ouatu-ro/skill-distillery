@@ -30,7 +30,7 @@ Out of scope:
 
 - [x] S1: Commit this baseline plan.
 - [x] S2: Use a GPT-5.4 subagent to extract concise Dirac workflow facts from source prompt/tool files.
-- [ ] S3: Initialize the skill skeleton with references support.
+- [x] S3: Initialize the skill skeleton with references support.
 - [ ] S4: Write `SKILL.md` and reference files.
 - [ ] S5: Use a GPT-5.4 subagent to review the draft skill for trigger clarity, bloat, and missing safety rules.
 - [ ] S6: Validate, revise, and commit the finished skill.
@@ -46,6 +46,7 @@ Out of scope:
 - 2026-04-27 16:40: Plan created.
 - 2026-04-27 16:41: Committed baseline plan as `736557a`.
 - 2026-04-27 16:43: GPT-5.4 extraction subagent completed; findings will inform `SKILL.md` and references.
+- 2026-04-27 16:45: Initialized `ast-code-workflow` with references support and fixed generated UI default prompt quoting.
 
 ## Findings / Debt
 
