@@ -8,7 +8,9 @@ Prefer the runtime and dependency workflow already chosen by the user or repo:
 
 - Read the prompt, `AGENTS.md`, package scripts, local docs, and virtualenv/tooling hints before choosing commands.
 - Check what exists locally: `python`, `python3`, `uv`, `uvx`, project virtualenvs, or repo task runners.
+- Check whether `tree_sitter_language_pack` imports in the selected runtime before assuming the helper is unavailable.
 - If dependencies are missing, install them only into the active environment the user/repo expects.
+- If there is no repo preference and `uv` or `uvx` is available, prefer a dependency-isolated invocation over failing on ambient Python.
 - Do not assume `uv` is required; it is just one convenient option when available.
 
 The helper needs `tree_sitter_language_pack`. It will print a short missing-dependency message if that package is unavailable.
@@ -27,6 +29,12 @@ If no repo preference exists and `uv` is available, this is a convenient depende
 
 ```bash
 uv run --with tree-sitter-language-pack python scripts/ast_harness.py fixtures/mini_repo
+```
+
+Use the same pattern for the helper itself when needed:
+
+```bash
+uv run --with tree-sitter-language-pack python scripts/ast_tool.py skeleton fixtures/mini_repo/ts_basic/main.ts
 ```
 
 ## Subcommands
