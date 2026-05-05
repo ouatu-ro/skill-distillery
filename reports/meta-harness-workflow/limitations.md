@@ -31,7 +31,7 @@ It did not show improved subagent capability beyond what a clearer prompt can el
 
 The best-supported claim is narrow:
 
-`meta-harness-workflow` helps a lead agent improve and audit intentionally misaligned prompts by recording observations, deltas, and decisions.
+`meta-harness-workflow` helps a lead agent fix a bad prompt in a more traceable way: save what happened, explain what changed, and decide whether the new prompt is actually better.
 
 ## Known Limitations
 
@@ -46,4 +46,4 @@ The best-supported claim is narrow:
 
 ## Practical Takeaway
 
-Use this skill when prompt or harness iteration needs to be auditable and repeatable. Skip it for casual prompt polishing where there is no stable task contract or before/after evaluation surface.
+Prefer writing a better initial prompt. Use this skill when prompt iteration needs a record of what changed between prompts and why, especially when there is a stable task contract and a deterministic evaluation loop (like the original islo.dev workflow). Without that kind of evaluation surface, a meta-agent can easily become just a slower way to tweak prompts by feel.
