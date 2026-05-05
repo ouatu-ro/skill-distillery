@@ -1,0 +1,4 @@
+interface:
+  display_name: "Meta-Harness Workflow"
+  short_description: "State-machine workflow for iteratively improving agent harnesses"
+  default_prompt: "Use $meta-harness-workflow to model the harness state, run before/after comparisons, and record prompt deltas with acceptance criteria."
