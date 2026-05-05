@@ -4,12 +4,19 @@ Distilled agent workflows, structural tooling, and reusable agent skills.
 
 This repository includes distilled workflow skills:
 
-- [Dirac Workflow](skills/dirac-workflow/SKILL.md), based on [Dirac](https://github.com/dirac-run/dirac), extracts structural-code habits into an installable skill. It is not meant to match the original project one to one.
-- [Meta-Harness Workflow](skills/meta-harness-workflow/SKILL.md) models prompt and harness iteration as explicit before/after state transitions with auditable deltas.
+- [Dirac Workflow](skills/dirac-workflow/SKILL.md) distills structural-code habits inspired by [Dirac](https://github.com/dirac-run/dirac) into an installable skill.
+- [Meta-Harness Workflow](skills/meta-harness-workflow/SKILL.md), inspired by [Islo's Meta-Harness workflow](https://zozo123.github.io/meta-harness-on-islo-page/), models prompt and harness iteration as explicit before/after state transitions with auditable deltas.
 
-This project is independent and is not affiliated with Dirac.
+These skills are independent distillations of ideas I found interesting, paired with small reports that make limited, falsifiable claims about how the distilled workflows performed. They are not official implementations of, or affiliated with, the projects that inspired them.
 
-Human-facing notes and reports live in [`reports/`](reports/). Start with [`reports/dirac-run-dirac/limitations.md`](reports/dirac-run-dirac/limitations.md) for a short scan of the Dirac workflow skill, or [`reports/meta-harness-workflow/report.md`](reports/meta-harness-workflow/report.md) for the meta-harness workflow report. Installable skills live in [`skills/`](skills/).
+Human-facing notes and reports are in [`reports/`](reports/), and installable skills are in [`skills/`](skills/). Reports are drafted with agent assistance and reviewed/edited by me before publication.
+
+Suggested entry points:
+
+- [`reports/dirac-run-dirac/limitations.md`](reports/dirac-run-dirac/limitations.md) for a short scan of the Dirac workflow skill.
+- [`reports/meta-harness-workflow/report.md`](reports/meta-harness-workflow/report.md) for the meta-harness workflow report.
+
+Each skill/report pair is a small distillation and evaluation pass, roughly a couple of hours of work per skill. The claims are directional, not benchmark-grade.
 
 ## Install
 
